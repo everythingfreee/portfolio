@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <link rel="icon" href="portfolio_favicon.png">
+
+    <!-- Essential Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@4.1.4/dist/locomotive-scroll.min.js"></script>
+    <script src="https://unpkg.com/split-type"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    <script src="https://unpkg.com/@barba/core"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+    <!-- AOS Library CSS -->
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+<!-- AOS Library JS -->
+<script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+:root {
+    --primary: #2A2A2A;
+    --secondary: #64FFDA;
+    --background: #0a192f;
+    --text: #8892b0;
+    --white: #e6f1ff;
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode {
+    --primary: #f5f5f5;
+    --secondary: #00b894;
+    --background: #ffffff;
+    --text: #4a4a4a;
+    --white: #2c3e50;
+    --glass-bg: rgba(0, 0, 0, 0.1);
+    --glass-border: rgba(0, 0, 0, 0.2);
+}
+
+body {
+    background: var(--background);
+    color: var(--text);
+    overflow-x: hidden;
+    transition: background 0.3s ease;
+}
+
+/* Custom Cursor */
+.cursor {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--secondary);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: all 0.3s ease;
+    transform: translate(-50%, -50%);
+}
+
+.cursor-follower {
+    width: 8px;
+    height: 8px;
+    background: var(--secondary);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: all 0.1s ease;
+    transform: translate(-50%, -50%);
+}
+
+/* Navigation */
+.nav {
+    position: fixed;
+    width: 100%;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    background: rgba(10, 25, 47, 0.85);
+}
+
+.nav-logo {
+    font-size: 24px;
+    color: var(--secondary);
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-link {
+    color: var(--white);
+    text-decoration: none;
+    position: relative;
+    padding: 5px;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--secondary);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 100px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 600px;
+    z-index: 1;
+}
+
+.hero-subtitle {
+    color: var(--secondary);
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.hero-title {
+    color: var(--white);
+    font-size: 60px;
+    line-height: 1.1;
+    margin-bottom: 20px;
+}
+
+.hero-description {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.hero-button {
+    padding: 15px 30px;
+    background: transparent;
+    border: 2px solid var(--secondary);
+    color: var(--secondary);
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--secondary);
+    transition: all 0.3s ease;
+    z-index: -1;
+}
+
+.hero-button:hover {
+    color: var(--background);
+}
+
+.hero-button:hover::before {
+    left: 0;
+}
+
+/* Particles Container */
+#particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* About Section */
+.about {
+    padding: 100px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    position: relative;
+}
+
+.about-image {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.about-content {
+    padding: 20px;
+}
+
+.section-title {
+    color: var(--white);
+    font-size: 40px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: var(--secondary);
+}
+
+/* Skills Section */
+.skills {
+    padding: 100px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.skill-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: 30px;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.skill-card:hover {
+    transform: translateY(-10px);
+}
+
+.skill-icon {
+    font-size: 40px;
+    color: var(--secondary);
+    margin-bottom: 20px;
+}
+
+.skill-title {
+    color: var(--white);
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+/* Portfolio Section */
+.portfolio {
+    padding: 100px;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.portfolio-item {
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
+    height: 400px;
+}
+
+.portfolio-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.portfolio-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 25, 47, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.portfolio-item:hover .portfolio-overlay {
+    opacity: 1;
+}
+
+.portfolio-item:hover .portfolio-image {
+    transform: scale(1.1);
+}
+
+/* Contact Section */
+.contact {
+    padding: 100px;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: 50px auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 15px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--white);
+    border-radius: 5px;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--secondary);
+}
+
+/* Footer */
+.footer {
+    padding: 50px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Animations */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav {
+        padding: 20px;
+    }
+
+    .hero {
+        padding: 0 20px;
+    }
+
+    .hero-title {
+        font-size: 40px;
+    }
+
+    .about {
+        grid-template-columns: 1fr;
+        padding: 50px 20px;
+    }
+
+    .skills, .portfolio, .contact {
+        padding: 50px 20px;
+    }
+}
+
+/* Loading Animation */
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.loader-content {
+    width: 50px;
+    height: 50px;
+    border: 3px solid var(--secondary);
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary);
+    border-radius: 5px;
+}
+
+/* Dark Mode Toggle */
+.theme-toggle {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.theme-toggle i {
+    color: var(--secondary);
+    font-size: 24px;
+}
+</style>
+</head>
+<body>
+    <!-- Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Loader -->
+    <div class="loader">
+        <div class="loader-content"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-logo">Portfolio</div>
+        <div class="nav-links">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#about" class="nav-link">About</a>
+            <a href="#skills" class="nav-link">Skills</a>
+            <a href="#portfolio" class="nav-link">Portfolio</a>
+            <a href="#contact" class="nav-link">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div id="particles-js"></div>
+        <div class="hero-content">
+            <p class="hero-subtitle" data-aos="fade-up">Hello, I'm</p>
+            <h1 class="hero-title" data-aos="fade-up" data-aos-delay="100">Sanaullah Shaheer</h1>
+            <p class="hero-description" data-aos="fade-up" data-aos-delay="200">
+                A creative <span class="typed-text"></span>
+            </p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-image" data-tilt>
+            <img src="portfolio.png" alt="About Image">
+        </div>
+        <div class="about-content">
+            <h2 class="section-title">About Me</h2>
+            <p>Creative developer with a passion for building beautiful and functional websites and Apps.</p>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <h2 class="section-title">My Skills</h2>
+        <div class="skills-grid">
+            <!-- Skills cards will be dynamically added -->
+             <p>Web development</p>
+             <p>App development</p>
+             <p>Video editing</p>
+             <p>Photo editing</p>
+             <p>3D designing</p>
+             <p>Memorization of full Quran</p>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio" id="portfolio">
+        <h2 class="section-title">My Work</h2>
+        <div class="portfolio-grid">
+            <!-- Portfolio items will be dynamically added -->
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <h1>hasa01531@gmail.com</h1>
+        <h1>+93777386727</h1>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2023 Portfolio. All rights reserved.</p>
+    </footer>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
+<script>
+// Initialize Particles.js
+particlesJS('particles-js', {
+    particles: {
+        number: { value: 80 },
+        color: { value: '#64FFDA' },
+        shape: { type: 'circle' },
+        opacity: { value: 0.5 },
+        size: { value: 3 },
+        move: {
+            enable: true,
+            speed: 2
+        }
+    }
+});
+
+// Initialize Typed.js
+new Typed('.typed-text', {
+    strings: ['Web Developer', 'App Developer', 'Creative Editor'],
+    typeSpeed: 50,
+    backSpeed: 30,
+    loop: true
+});
+// Initialize AOS
+document.addEventListener('DOMContentLoaded', function() {
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true,
+        mirror: false
+    });
+});
+// Initialize AOS
+AOS.init({
+    duration: 1000,
+    once: true
+});
+
+// Custom Cursor
+const cursor = document.querySelector('.cursor');
+const cursorFollower = document.querySelector('.cursor-follower');
+
+document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    
+    setTimeout(() => {
+        cursorFollower.style.left = e.clientX + 'px';
+        cursorFollower.style.top = e.clientY + 'px';
+    }, 50);
+});
+
+// Magnetic Buttons
+document.querySelectorAll('.hero-button').forEach(button => {
+    button.addEventListener('mousemove', (e) => {
+        const rect = button.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        button.style.transform = `translate(${x/10}px, ${y/10}px)`;
+    });
+
+    button.addEventListener('mouseleave', () => {
+        button.style.transform = '';
+    });
+});
+
+// Initialize Tilt
+VanillaTilt.init(document.querySelectorAll("[data-tilt]"), {
+    max: 25,
+    speed: 400,
+    glare: true,
+    "max-glare": 0.5
+});
+
+// Dark Mode Toggle
+const themeToggle = document.querySelector('.theme-toggle');
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    themeToggle.querySelector('i').classList.toggle('fa-sun');
+    themeToggle.querySelector('i').classList.toggle('fa-moon');
+});
+
+// Smooth Scrolling
+
+
+// Page Loading Animation
+window.addEventListener('load', () => {
+    const loader = document.querySelector('.loader');
+    loader.style.opacity = '0';
+    setTimeout(() => {
+        loader.style.display = 'none';
+    }, 500);
+});
+
+// Dynamic Skills Cards
+const skills = [
+    { name: 'HTML5', icon: '🌐' },
+    { name: 'CSS3', icon: '🎨' },
+    { name: 'JavaScript', icon: '⚡' },
+    { name: 'React', icon: '⚛️' },
+    { name: 'Node.js', icon: '🚀' },
+    { name: 'Python', icon: '🐍' },
+    { name: 'Java', icon: '☄' },
+];
+
+const skillsGrid = document.querySelector('.skills-grid');
+skills.forEach(skill => {
+    skillsGrid.innerHTML += `
+        <div class="skill-card" data-aos="fade-up">
+            <div class="skill-icon">${skill.icon}</div>
+            <h3 class="skill-title">${skill.name}</h3>
+        </div>
+    `;
+});
+
+// Dynamic Portfolio Items
+const projects = [
+    { title: 'A-Chat', image: 'a-chat.png' },
+    { title: 'My Apps', image: 'myapps.webp' },
+    { title: 'Calculator', image: 'calculator.png' },
+    { title: 'Song Finder', image: 'song.png' },
+    { title: 'Object Detector', image: 'detect.png' },
+    { title: 'Python runner', image: 'python.png' },
+    { title: '8D converter', image: 'converter.png' },
+    { title: 'See more', image: 'more.png' },
+];
+
+const portfolioGrid = document.querySelector('.portfolio-grid');
+projects.forEach(project => {
+    portfolioGrid.innerHTML += `
+        <div class="portfolio-item" data-aos="fade-up">
+            <img src="${project.image}" alt="${project.title}" class="portfolio-image">
+            <div class="portfolio-overlay">
+                <h3>${project.title}</h3>
+                <button class="hero-button" onclick="navigate('${project.title}')">View Project</button>
+            </div>
+        </div>
+    `;
+});
+
+// Navigation function
+function navigate(title) {
+    switch (title) {
+        case 'A-Chat':
+            window.location.href = 'a-chat.html'; // Replace with your actual URL
+            break;
+        case 'My Apps':
+            window.open('https://everythingfreee.github.io/MyApps/', '_blank');
+            break;
+        case 'Calculator':
+            window.open('https://everythingfreee.github.io/Calculator/', '_blank'); // Replace with your actual URL
+            break;
+        case 'Song Finder':
+        window.open('https://everythingfreee.github.io/Song-finder/', '_blank'); // Replace with your actual URL
+            break;
+        case 'Object Detector':
+        window.open('https://everythingfreee.github.io/detect/', '_blank'); // Replace with your actual URL
+        // Replace with your actual URL
+            break;
+        case 'Python runner':
+        window.open('https://everythingfreee.github.io/python_runner/', '_blank'); // Replace with your actual URL
+        // Replace with your actual URL
+            break;
+        case '8D converter':
+        window.open('https://everythingfreee.github.io/8D/', '_blank'); // Replace with your actual URL
+        // Replace with your actual URL
+            break;
+        case 'See more':
+        window.open('https://github.com/everythingfreee/', '_blank'); // Replace with your actual URL
+        // Replace with your actual URL
+            break;
+        default:
+            console.log('Project not found!');
+    }
+}
+
+
+// GSAP Animations
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.from('.hero-content', {
+    duration: 1,
+    y: 100,
+    opacity: 0,
+    ease: 'power4.out'
+});
+
+gsap.from('.nav', {
+    duration: 1,
+    y: -100,
+    opacity: 0,
+    ease: 'power4.out'
+});
+
+// Scroll Animations
+ScrollTrigger.batch('.skill-card', {
+    onEnter: batch => gsap.from(batch, {
+        opacity: 0,
+        y: 50,
+        stagger: 0.15,
+        duration: 0.8
+    })
+});
+
+// Initialize Barba.js for page transitions
+barba.init({
+    transitions: [{
+        name: 'opacity-transition',
+        leave(data) {
+            return gsap.to(data.current.container, {
+                opacity: 0
+            });
+        },
+        enter(data) {
+            return gsap.from(data.next.container, {
+                opacity: 0
+            });
+        }
+    }]
+});
+</script>
+</body>
+</html>
